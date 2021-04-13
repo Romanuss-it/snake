@@ -23,8 +23,8 @@ game.board = {
             y: offsetY + cellSize * row
         };
     },
-    getCell(row, col){
-        return this.cells.find(cell => cell.row === row && cell.col === col)
+    getCell(row, col) {
+        return this.cells.find(cell => cell.row === row && cell.col === col);
     },
     render() {
         this.cells.forEach(cell => {
