@@ -84,15 +84,30 @@ let game = {
             this.sprites[key].addEventListener("load", onAssetLoad);
         }
     },
-    run() {
+    create(){
         this.board.create();
         this.snake.create();
-        
+        window.addEventListener('keydown', e => {
+            this.snake.start(e.keyCode);
+        });
+    },
+    render(){
         window.requestAnimationFrame(() => {
+            this.ctx.clearRect(0, 0, this.width, this.height);
             this.ctx.drawImage(this.sprites.background, (this.width - this.sprites.background.width) / 2, (this.height - this.sprites.background.height) / 2);
             this.board.render();
             this.snake.render();
         });
+    },
+    update(){
+        this.snake.move();
+        this.render();
+    },
+    run() {
+        this.create();
+        setInterval(() => {
+           this.update();
+        },150);
     }
 };
 
