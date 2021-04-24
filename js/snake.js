@@ -74,6 +74,9 @@ game.snake = {
                  this.direction = this.directions.down;
                  break;
         }
+        if (!this.moving){
+        this.game.onSnakeStart();
+        }
         this.moving = true;
     },
     move(){
@@ -90,7 +93,7 @@ game.snake = {
             if(!this.game.board.isFoodCell(cell)){
                 this.cells.pop();
             } else {
-                this.game.board.createFood();
+                this.game.onSnakeEat();
             }   
 
         }

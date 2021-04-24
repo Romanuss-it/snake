@@ -4,6 +4,7 @@ let game = {
     board: null,
     width: 0,
     height: 0,
+    score: 0,
     dimensions: {
         max: {
             width: 640,
@@ -40,6 +41,11 @@ let game = {
         this.canvas = document.getElementById("mycanvas");
         this.ctx = this.canvas.getContext("2d");
         this.initDimensions();
+        this.setTextFont();
+    },
+    setTextFont(){
+        this.ctx.font = '20px Cactus';
+        this.ctx.fillStyle = '#FFFFFF';
     },
     initDimensions(){
         let data = {
@@ -121,6 +127,7 @@ let game = {
             this.ctx.drawImage(this.sprites.background, (this.width - this.sprites.background.width) / 2, (this.height - this.sprites.background.height) / 2);
             this.board.render();
             this.snake.render();
+            this.ctx.fillText('Score: ' + this.score, 30, 30);
         });
     },
     update(){
@@ -137,14 +144,26 @@ let game = {
         this.bombInterval = setInterval(() => {
             if (this.snake.moving){
         this.board.createBomb();}
-     }, 4500);
+     }, 4000);
     },
     stop(){
+        this.sounds.bomb.play();
         clearInterval(this.gameInterval);
         clearInterval(this.bombInterval);
-        alert('game over');
+        alert('game over, your score: ' + this.score);
         window.location.reload();
+    },
+    onSnakeStart(){
+        this.sounds.theme.loop = true;
+        this.sounds.theme.play();
+    },
+    onSnakeEat(){
+        ++this.score;
+        this.sounds.food.play();
+        this.board.createFood();
     }
 };
 
-game.start();
+window.addEventListener('load', () => {
+    game.start();
+});
