@@ -113,13 +113,21 @@ let game = {
     },
     run() {
         this.create();
-        setInterval(() => {
+
+        this.gameInterval = setInterval(() => {
            this.update();
-        },150);
-        setInterval(() => {
+        }, 150);
+
+        this.bombInterval = setInterval(() => {
             if (this.snake.moving){
         this.board.createBomb();}
-     },4500);
+     }, 4500);
+    },
+    stop(){
+        clearInterval(this.gameInterval);
+        clearInterval(this.bombInterval);
+        alert('game over');
+        window.location.reload();
     }
 };
 
