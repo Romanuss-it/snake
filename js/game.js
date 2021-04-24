@@ -18,7 +18,9 @@ let game = {
         background: null,
         cell: null,
         body: null,
-        food: null
+        food: null,
+        head: null,
+        bomb: null
     },
     random(min, max) {
         return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -92,6 +94,7 @@ let game = {
         this.board.create();
         this.snake.create();
         this.board.createFood();
+        this.board.createBomb();
         window.addEventListener('keydown', e => {
             this.snake.start(e.keyCode);
         });
@@ -113,6 +116,10 @@ let game = {
         setInterval(() => {
            this.update();
         },150);
+        setInterval(() => {
+            if (this.snake.moving){
+        this.board.createBomb();}
+     },4500);
     }
 };
 
