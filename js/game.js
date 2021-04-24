@@ -22,6 +22,11 @@ let game = {
         head: null,
         bomb: null
     },
+    sounds: {
+        food: null,
+        bomb: null,
+        theme: null
+    },
     random(min, max) {
         return Math.floor(Math.random() * (max + 1 - min)) + min;
     },
@@ -75,7 +80,7 @@ let game = {
     },
     preload(callback) {
         let loaded = 0;
-        let required = Object.keys(this.sprites).length;
+        let required = Object.keys(this.sprites).length +  Object.keys(this.sounds).length;
 
         let onAssetLoad = () => {
             ++loaded;
@@ -84,10 +89,21 @@ let game = {
                 callback();
             }
         };
+        this.preloadSprites(onAssetLoad);
+        this.preloadSounds(onAssetLoad);
+    },
+    preloadSprites(onAssetLoad){
         for (let key in this.sprites) {
             this.sprites[key] = new Image();
             this.sprites[key].src = "img/" + key + ".png";
             this.sprites[key].addEventListener("load", onAssetLoad);
+        }
+    },
+    preloadSounds(onAssetLoad){
+        for (let key in this.sounds) {
+            this.sounds[key] = new Audio();
+            this.sounds[key].src = "sounds/" + key + ".mp3";
+            this.sounds[key].addEventListener("canplaythrough", onAssetLoad, {once: true});
         }
     },
     create(){
